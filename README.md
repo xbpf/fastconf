@@ -85,7 +85,7 @@ const config = fastconf({
   //   FOO_BAR: 123,
   //   moreThings: null,
   //   xbpf: {
-  //    zigZag: 2929
+  //     zigZag: 2929
   //   }
   // }
   //
