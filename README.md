@@ -1,6 +1,10 @@
 fastconf
 ===
 
+[![npm](https://img.shields.io/npm/v/fastconf.svg?style=flat-square)](https://npmjs.com/package/fastconf)
+[![npm](https://img.shields.io/badge/style-standard-blue.svg?style=flat-square)](https://github.com/feross/standard)
+
+
 `npm install fastconf`
 
 ```js
