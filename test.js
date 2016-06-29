@@ -15,23 +15,23 @@ test('readme example should work', (t) => {
         strictExistence: true,
         defaultValue: 0
       }],
-      ['MORE_THINGS', {type: String, defaultValue: undefined}]
+      ['MORE_THINGS', {type: String, defaultValue: null}]
     ]
   }, {
-    xbpf: fastconf({
+    xbpf: {
       prefix: 'XBPF_',
       keys: [
         ['ZIG_ZAG', {type: Number}]
       ]
-    })
+    }
   }, {
-    'FOO_BAR': '123',
+    'NICE_FOO_BAR': '123',
     'XBPF_ZIG_ZAG': '2929'
   })
 
   t.deepEqual(config, {
-    fooBar: 123,
-    moreThings: undefined,
+    FOO_BAR: 123,
+    moreThings: null,
     xbpf: {
       zigZag: 2929
     }
@@ -138,14 +138,12 @@ test('key names must be strings', t => {
 })
 
 test('key names must not be empty', t => {
-  t.plan(3)
+  t.plan(1)
 
   const expectedError = 'Empty key name provided!'
 
   const cases = [
-    {keys: [['    ']]},
-    {keys: [['']]},
-    {keys: [['\n\r']]}
+    {keys: [['']]}
   ]
 
   for (let caseTest of cases) {
@@ -214,3 +212,19 @@ test.todo('key validation: string validation')
 
 test.todo('key validation: number validation')
 test.todo('key validation: boolean validation')
+test.todo('key resolution: normalized names: default')
+test.todo('key resolution: normalized names: global')
+test.todo('key resolution: normalized names: key')
+test.todo('key resolution: non-normalized names')
+
+test.todo('key validation: values')
+test.todo('key validation: default values')
+test.todo('key validation: existence errors')
+
+test.todo('name conflict checking')
+test.todo('object property freezing')
+
+test.todo('namespace validation')
+test.todo('nested call validation')
+test.todo('nested call env validation')
+test.todo('nested call conflict validation')

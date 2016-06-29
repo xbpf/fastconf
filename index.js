@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = function fastconf (options, namespaces, env) {
+module.exports = function fastconf (options, namespaces, envOverride) {
   if (!options || typeof options !== 'object') {
     throw new Error('No options object provided!')
   }
@@ -11,7 +11,7 @@ module.exports = function fastconf (options, namespaces, env) {
 
   const retval = {}
 
-  env = env || process.env
+  const env = envOverride || process.env
 
   validateEnv(env)
 
@@ -19,7 +19,20 @@ module.exports = function fastconf (options, namespaces, env) {
     applyKey(key, retval, options, env)
   }
 
-  return retval
+  if (namespaces) {
+    if (typeof namespaces !== 'object') {
+      throw new Error('Provided namespaces must be an object!')
+    }
+    for (let key of Object.keys(namespaces)) {
+      setToObject(
+        retval,
+        key,
+        fastconf(namespaces[key], null, env)
+      )
+    }
+  }
+
+  return Object.freeze(retval)
 }
 
 function validateEnv (env) {
@@ -27,8 +40,8 @@ function validateEnv (env) {
     throw new Error('env must be an object!')
   }
 
-  for (let value of Object.values(env)) {
-    if (typeof value !== 'string') {
+  for (let key of Object.keys(env)) {
+    if (typeof env[key] !== 'string') {
       throw new Error('An env value is not a string!')
     }
   }
@@ -49,7 +62,7 @@ function applyKey (key, retval, options, env) {
     throw new Error('Empty key name provided!')
   }
 
-  const keyOptions = key[1]
+  const keyOptions = key[1] || {}
 
   if (keyOptions && typeof keyOptions !== 'object') {
     throw new Error('Non-object key options provided!')
@@ -57,8 +70,9 @@ function applyKey (key, retval, options, env) {
 
   const keyLookupName = resolveKeyLookupName(keyName, keyOptions, options)
   const keyValue = resolveKeyValue(keyLookupName, keyOptions, options, env)
-  // const keySavedName = resolveKeySavedName(keyName, keyOptions, options)
-  keyValue
+  const keySavedName = resolveKeySavedName(keyName, keyOptions, options)
+
+  setToObject(retval, keySavedName, keyValue)
 }
 
 function resolveKeyLookupName (keyName, keyOptions, options) {
@@ -79,7 +93,7 @@ function resolveKeyValue (keyLookupName, keyOptions, options, env) {
   if (valueExists(value, keyOptions, options)) {
     const transformedValue = validateValue(value, keyOptions, keyLookupName)
     return transformedValue
-  } else if (keyOptions.defalutValue !== undefined) {
+  } else if (keyOptions.defaultValue !== undefined) {
     return keyOptions.defaultValue
   } else {
     throw new Error(`Key ${keyLookupName} was not provided!`)
@@ -111,12 +125,53 @@ function validateValue (value, keyOptions, keyLookupName) {
     return value
   } else if (valueType === Number) {
     if (Number.isNaN(+value)) {
-      throw new Error(`Value for key ${keyLookupName} is not a number!`)
+      throw new Error(`Value for key ${keyLookupName} could not be resolved as a number!`)
     }
     return +value
   } else if (valueType === Boolean) {
-    // TODO
+    switch (value.toLowerCase()) {
+      case '1':
+      case 'yes':
+      case 'true':
+        return true
+      case '0':
+      case 'no':
+      case 'false':
+        return false
+      default:
+        throw new Error(`Value for key ${keyLookupName} could not be resolved as a boolean!`)
+    }
   } else {
     throw new Error('Type provided for key is of an unknown value!')
   }
+}
+
+function resolveKeySavedName (keyName, keyOptions, options) {
+  const shouldNormalizeName = (
+    keyOptions.normalizeName !== undefined
+    ? keyOptions.normalizeName
+    : (
+      options.normalizeNames !== undefined
+      ? options.normalizeNames
+      : true
+    )
+  )
+
+  if (shouldNormalizeName) {
+    return keyName.toLowerCase().replace(/_./g, i => i.toUpperCase().substr(1))
+  } else {
+    return keyName
+  }
+}
+
+function setToObject (obj, name, value) {
+  if (obj[name] !== undefined) {
+    throw new Error(`Duplicate key: ${name}`)
+  }
+  Object.defineProperty(obj, name, {
+    configurable: false,
+    enumerable: true,
+    value: value,
+    writable: false
+  })
 }

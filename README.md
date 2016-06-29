@@ -63,12 +63,12 @@ const config = fastconf({
       strictExistence: true,
 
       // Default value, which can be any value. If a default value
-      // is provided, then the key is no longer required, and
+      // is provided (not undefined), then the key is no longer required, and
       // fastconf will not throw an error if the value does not
       // exist.
       defaultValue: 0
     }],
-    ['MORE_THINGS', {type: String, defaultValue: undefined}]
+    ['MORE_THINGS', {type: String, defaultValue: null}]
   ]
 }, {
   // The optional second object provided are any "namespaces"
@@ -78,26 +78,29 @@ const config = fastconf({
   // object will look like this:
   //
   // {
-  //   fooBar: 123,
-  //   moreThings: undefined,
+  //   FOO_BAR: 123,
+  //   moreThings: null,
   //   xbpf: {
   //    zigZag: 2929
   //   }
   // }
   //
   // This is useful for separate prefixes, and general organization.
-  xbpf: fastconf({
+  // Note that the object gets run through another call to fastconf(),
+  // with the difference of it reusing the already determined environment
+  // object.
+  xbpf: {
     prefix: 'XBPF_',
     keys: [
       ['ZIG_ZAG', {type: Number}]
     ]
-  })
+  }
 }, {
   // If you wish to, you can provide your own key-value environment map.
   // Requires that all values for the keys are strings.
   //
   // Otherwise, fastconf will use process.env
-  'FOO_BAR': '123',
+  'NICE_FOO_BAR': '123',
   'XBPF_ZIG_ZAG': '2929'
 })
 ```
