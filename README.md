@@ -7,6 +7,44 @@ fastconf
 
 `npm install fastconf`
 
+fast example
+---
+
+```js
+console.log(process.env) /* {
+  'FOO_BAR': '123',
+  'NOPE': 'true',
+  'XBPF_ZIG_ZAG': '2929'
+} */
+
+const config = fastconf({
+  keys: [
+    ['FOO_BAR', {type: Number}],
+    ['NOPE', {type: Boolean, defaultValue: false}],
+    ['MORE_THINGS', {type: String, defaultValue: 'apples'}]
+  ]
+}, {
+  xbpf: {
+    prefix: 'XBPF_',
+    keys: [
+      ['ZIG_ZAG', {type: String}]
+    ]
+  }
+})
+
+console.log(config) /* {
+  fooBar: 123,
+  nope: true,
+  moreThings: 'apples',
+  xbpf: {
+    zigZag: '2929'
+  }
+} */
+```
+
+slow example
+---
+
 ```js
 import fastconf from 'fastconf'
 

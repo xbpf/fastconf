@@ -3,7 +3,9 @@
 import test from 'ava'
 import fastconf from './'
 
-test('readme example should work', (t) => {
+test('readme slow example should work', t => {
+  t.plan(1)
+
   const config = fastconf({
     prefix: 'NICE_',
     normalizeNames: true,
@@ -34,6 +36,40 @@ test('readme example should work', (t) => {
     moreThings: null,
     xbpf: {
       zigZag: 2929
+    }
+  })
+})
+
+test('readme fast example should work', t => {
+  t.plan(1)
+
+  const env = {
+    'FOO_BAR': '123',
+    'NOPE': 'true',
+    'XBPF_ZIG_ZAG': '2929'
+  }
+
+  const config = fastconf({
+    keys: [
+      ['FOO_BAR', {type: Number}],
+      ['NOPE', {type: Boolean, defaultValue: false}],
+      ['MORE_THINGS', {type: String, defaultValue: 'apples'}]
+    ]
+  }, {
+    xbpf: {
+      prefix: 'XBPF_',
+      keys: [
+        ['ZIG_ZAG', {type: String}]
+      ]
+    }
+  }, env)
+
+  t.deepEqual(config, {
+    fooBar: 123,
+    nope: true,
+    moreThings: 'apples',
+    xbpf: {
+      zigZag: '2929'
     }
   })
 })
