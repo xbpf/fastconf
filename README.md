@@ -21,7 +21,7 @@ const config = fastconf({
   keys: [
     ['FOO_BAR', {type: Number}],
     ['NOPE', {type: Boolean, defaultValue: false}],
-    ['MORE_THINGS', {type: String, defaultValue: 'apples'}]
+    ['MORE_THINGS', {defaultValue: 'apples'}]
   ]
 }, {
   xbpf: {
