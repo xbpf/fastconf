@@ -1,0 +1,31 @@
+{
+  "name": "fastconf",
+  "version": "0.0.0",
+  "description": "super simple environment-based configuration utility",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard && ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/xbpf/fastconf.git"
+  },
+  "keywords": [
+    "env",
+    "environment",
+    "config",
+    "configuration",
+    "conf",
+    "simple"
+  ],
+  "author": "ivan k <ivan@sq10.net>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xbpf/fastconf/issues"
+  },
+  "homepage": "https://github.com/xbpf/fastconf#readme",
+  "devDependencies": {
+    "ava": "^0.15.2",
+    "standard": "^7.1.2"
+  }
+}
