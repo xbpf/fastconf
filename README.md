@@ -29,7 +29,7 @@ const config = fastconf({
 
   // Whether to consider a required key as existing only if it's undefined.
   // Otherwise, the following rule applies:
-  // * The key does not exist if the environment variable is an empty string 
+  // * The key does not exist if the environment variable is an empty string
   //
   // Defaults to false.
   strictExistence: false,
@@ -38,23 +38,23 @@ const config = fastconf({
   keys: [
     ['FOO_BAR', {
       // Key type. Can be either String, Number, or Boolean.
-      // 
+      //
       // The String type returns values as-is.
-      // 
+      //
       // The Number type parses the string as a number. If the
       // parsed number is NaN, then fastconf will throw an error.
-      // 
+      //
       // The Boolean type tried to parse the string as a boolean.
       // It must be one of the following values:
       //  false: '0', 'false' (case insensitive), 'no' (case insensitive)
       //  true: '1', 'true' (case insensitive), 'yes' (case insensitive)
-      // 
+      //
       // Defaults to String.
       type: Number,
 
       // Whether to normalize the name for this individual key.
       // See normalizeNames's documentation for more info.
-      // 
+      //
       // Defaults to normalizeNames's value.
       normalizeName: false,
 
@@ -76,7 +76,7 @@ const config = fastconf({
   // For example, if you have the 'xbpf' namespace, with its
   // own set of keys and values, the returned
   // object will look like this:
-  // 
+  //
   // {
   //   fooBar: 123,
   //   moreThings: undefined,
@@ -84,7 +84,7 @@ const config = fastconf({
   //    zigZag: 2929
   //   }
   // }
-  // 
+  //
   // This is useful for separate prefixes, and general organization.
   xbpf: fastconf({
     prefix: 'XBPF_',
@@ -92,5 +92,12 @@ const config = fastconf({
       ['ZIG_ZAG', {type: Number}]
     ]
   })
+}, {
+  // If you wish to, you can provide your own key-value environment map.
+  // Requires that all values for the keys are strings.
+  //
+  // Otherwise, fastconf will use process.env
+  'FOO_BAR': '123',
+  'XBPF_ZIG_ZAG': '2929'
 })
 ```

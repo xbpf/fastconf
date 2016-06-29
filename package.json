@@ -26,6 +26,10 @@
   "homepage": "https://github.com/xbpf/fastconf#readme",
   "devDependencies": {
     "ava": "^0.15.2",
+    "babel-eslint": "^6.1.0",
     "standard": "^7.1.2"
+  },
+  "standard": {
+    "parser": "babel-eslint"
   }
 }
