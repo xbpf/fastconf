@@ -1,6 +1,13 @@
 'use strict'
 
-module.exports = function fastconf (options, namespaces, envOverride) {
+module.exports = function fastconf (_options, namespaces, envOverride) {
+  let options
+  if (Array.isArray(_options)) {
+    options = {keys: _options}
+  } else {
+    options = _options
+  }
+
   if (!options || typeof options !== 'object') {
     throw new Error('No options object provided!')
   }

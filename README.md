@@ -17,17 +17,16 @@ console.log(process.env) /* {
   'XBPF_ZIG_ZAG': '2929'
 } */
 
-const config = fastconf({
-  keys: [
-    ['FOO_BAR', {type: Number}],
-    ['NOPE', {type: Boolean, defaultValue: false}],
-    ['MORE_THINGS', {defaultValue: 'apples'}]
-  ]
-}, {
-  xbpf: {
+const config = fastconf([
+  ['FOO_BAR', {type: Number}],
+  ['NOPE', {type: Boolean, defaultValue: false}],
+  ['MORE_THINGS', {defaultValue: 'apples'}]
+], {
+  xbpf: { // You can also pass an object (with the keys prop) if you want to
+          // further configure fastconf
     prefix: 'XBPF_',
     keys: [
-      'ZIG_ZAG' // You can also just provide strings (options are defaults)
+      'ZIG_ZAG' // You can also just provide strings in keys array (options are defaults)
     ]
   }
 })
@@ -55,6 +54,9 @@ import fastconf from 'fastconf'
 // never map to the same key in the returned object), and that
 // all keys are required unless specified optional.
 const config = fastconf({
+  // (Since 0.2.0) You can now just pass an array in place of the first object,
+  // which is equivalent to passing {keys: [the array]}
+
   // Prefix, useful for not having to repeat yourself.
   // If you have a prefix of 'NICE_', and have a required key 'FOO_BAR',
   // then fastconf will expect there to be an environment variable

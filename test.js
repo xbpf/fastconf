@@ -49,13 +49,11 @@ test('readme fast example should work', t => {
     'XBPF_ZIG_ZAG': '2929'
   }
 
-  const config = fastconf({
-    keys: [
-      ['FOO_BAR', {type: Number}],
-      ['NOPE', {type: Boolean, defaultValue: false}],
-      ['MORE_THINGS', {defaultValue: 'apples'}]
-    ]
-  }, {
+  const config = fastconf([
+    ['FOO_BAR', {type: Number}],
+    ['NOPE', {type: Boolean, defaultValue: false}],
+    ['MORE_THINGS', {defaultValue: 'apples'}]
+  ], {
     xbpf: {
       prefix: 'XBPF_',
       keys: [
@@ -267,3 +265,4 @@ test.todo('nested call conflict validation')
 
 test.todo('key checking if array')
 test.todo('key checking if string')
+test.todo('array of keys for options testing')
