@@ -27,7 +27,7 @@ const config = fastconf({
   xbpf: {
     prefix: 'XBPF_',
     keys: [
-      ['ZIG_ZAG', {type: String}]
+      'ZIG_ZAG' // You can also just provide strings (options are defaults)
     ]
   }
 })

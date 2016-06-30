@@ -59,7 +59,7 @@ test('readme fast example should work', t => {
     xbpf: {
       prefix: 'XBPF_',
       keys: [
-        ['ZIG_ZAG', {type: String}]
+        'ZIG_ZAG'
       ]
     }
   }, env)
@@ -128,10 +128,10 @@ test.todo('provided env validation testing - env is object')
 test.todo('provided env validation testing - env values are strings')
 test.todo('process.env testing')
 
-test('keys provided must be arrays', t => {
+test('keys provided must be arrays or strings', t => {
   t.plan(4)
 
-  const expectedError = 'Key provided is not an array!'
+  const expectedError = 'Key provided is not an array or a string!'
 
   const cases = [
     {keys: [null]},
@@ -264,3 +264,6 @@ test.todo('namespace validation')
 test.todo('nested call validation')
 test.todo('nested call env validation')
 test.todo('nested call conflict validation')
+
+test.todo('key checking if array')
+test.todo('key checking if string')

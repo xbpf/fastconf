@@ -47,9 +47,16 @@ function validateEnv (env) {
   }
 }
 
-function applyKey (key, retval, options, env) {
+function applyKey (_key, retval, options, env) {
+  let key
+  if (typeof _key === 'string') {
+    key = [_key]
+  } else {
+    key = _key
+  }
+
   if (!Array.isArray(key)) {
-    throw new Error('Key provided is not an array!')
+    throw new Error('Key provided is not an array or a string!')
   }
 
   if (typeof key[0] !== 'string') {
