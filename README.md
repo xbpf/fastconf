@@ -18,6 +18,7 @@ console.log(process.env) /* {
 } */
 
 const config = fastconf([
+  // All keys are required unless a default value is provided
   ['FOO_BAR', {type: Number}],
   ['NOPE', {type: Boolean, defaultValue: false}],
   ['MORE_THINGS', {defaultValue: 'apples'}]
