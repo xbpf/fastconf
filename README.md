@@ -77,6 +77,9 @@ const config = fastconf({
   strictExistence: false,
 
   // An array of [key, options] values.
+  //
+  // (Since 0.1.0) The elements could also just be strings, which is the same
+  // as doing ['KEY'] (default options)
   keys: [
     ['FOO_BAR', {
       // Key type. Can be either String, Number, or Boolean.
