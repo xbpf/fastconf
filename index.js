@@ -3,7 +3,7 @@
 const proxyHandler = {
   get: function (target, name) {
     if (target[name] === undefined) {
-      throw new Error('Attempting to get undefined field')
+      throw new Error('Attempted to get undefined field')
     }
     return target[name]
   }

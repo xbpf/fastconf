@@ -84,7 +84,7 @@ const config = fastconf({
   // (Since 0.3.0) Whether to wrap the returned object in a proxy
   // that throws an error when getting keys that have undefined values.
   //
-  // If true, and Proxy is undefined (and not a function) then this will
+  // If true, and Proxy is not a function then this will
   // throw an error.
   // Defaults to false.
   useProxy: false,
