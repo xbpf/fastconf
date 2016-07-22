@@ -266,3 +266,5 @@ test.todo('nested call conflict validation')
 test.todo('key checking if array')
 test.todo('key checking if string')
 test.todo('array of keys for options testing')
+
+test.todo('proxies')

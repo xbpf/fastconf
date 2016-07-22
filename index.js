@@ -1,5 +1,24 @@
 'use strict'
 
+const proxyHandler = {
+  get: function (target, name) {
+    if (target[name] === undefined) {
+      throw new Error('Attempting to get undefined field')
+    }
+    return target[name]
+  }
+}
+
+function wrapInProxy (obj) {
+  if (typeof Proxy !== 'function') {
+    throw new Error(
+      'The ES6 Proxy class does not seem to be supported ' +
+      'in your environment.'
+    )
+  }
+  return new Proxy(obj, proxyHandler)
+}
+
 module.exports = function fastconf (_options, namespaces, envOverride) {
   let options
   if (Array.isArray(_options)) {
@@ -16,14 +35,14 @@ module.exports = function fastconf (_options, namespaces, envOverride) {
     throw new Error('No keys array provided!')
   }
 
-  const retval = {}
+  const generatedConfig = {}
 
   const env = envOverride || process.env
 
   validateEnv(env)
 
   for (let key of options.keys) {
-    applyKey(key, retval, options, env)
+    applyKey(key, generatedConfig, options, env)
   }
 
   if (namespaces) {
@@ -32,14 +51,20 @@ module.exports = function fastconf (_options, namespaces, envOverride) {
     }
     for (let key of Object.keys(namespaces)) {
       setToObject(
-        retval,
+        generatedConfig,
         key,
         fastconf(namespaces[key], null, env)
       )
     }
   }
 
-  return Object.freeze(retval)
+  const retval = Object.freeze(generatedConfig)
+
+  if (options.useProxy) {
+    return wrapInProxy(retval)
+  } else {
+    return retval
+  }
 }
 
 function validateEnv (env) {

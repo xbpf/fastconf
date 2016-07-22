@@ -5,6 +5,8 @@ fastconf
 [![npm](https://img.shields.io/badge/style-standard-blue.svg?style=flat-square)](https://github.com/feross/standard)
 
 
+*Requires at least partial ES6 support (node v4 or higher)*
+
 `npm install fastconf`
 
 fast example
@@ -78,6 +80,14 @@ const config = fastconf({
   //
   // Defaults to false.
   strictExistence: false,
+
+  // (Since 0.3.0) Whether to wrap the returned object in a proxy
+  // that throws an error when getting keys that have undefined values.
+  //
+  // If true, and Proxy is undefined (and not a function) then this will
+  // throw an error.
+  // Defaults to false.
+  useProxy: false,
 
   // An array of [key, options] values.
   //
