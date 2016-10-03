@@ -73,8 +73,8 @@ function validateEnv (env) {
   }
 
   for (let key of Object.keys(env)) {
-    if (typeof env[key] !== 'string') {
-      throw new Error('An env value is not a string!')
+    if (typeof env[key] !== 'string' && env[key] !== undefined) {
+      throw new Error('An env value is not a string or undefined!')
     }
   }
 }

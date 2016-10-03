@@ -123,7 +123,7 @@ test('must require options.keys to be an array', t => {
 
 test.todo('provided env testing')
 test.todo('provided env validation testing - env is object')
-test.todo('provided env validation testing - env values are strings')
+test.todo('provided env validation testing - env values are strings or undefined')
 test.todo('process.env testing')
 
 test('keys provided must be arrays or strings', t => {
