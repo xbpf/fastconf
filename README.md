@@ -1,6 +1,8 @@
 fastconf
 ===
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/xbpf/fastconf.svg)](https://greenkeeper.io/)
+
 [![npm](https://img.shields.io/npm/v/fastconf.svg?style=flat-square&_t=20160630)](https://npmjs.com/package/fastconf)
 [![npm](https://img.shields.io/badge/style-standard-blue.svg?style=flat-square)](https://github.com/feross/standard)
 
